@@ -1,4 +1,4 @@
-Status of the documentation overhaul (5.0 version)
+Edited status of the documentation overhaul (5.0 version)
 ==================================================
 
 Overall the plan is to define 3 DocBook-based guides.  The intention is for this document to serve
