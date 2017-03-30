@@ -17,6 +17,7 @@ import static org.junit.Assert.assertNull;
 /**
  * @author Emmanuel Bernard
  */
+@RequiresDialectFeature(value = DialectChecks.SupportsIdentityColumns.class)
 public class NotFoundTest extends BaseCoreFunctionalTestCase {
 	@Test
 	public void testManyToOne() throws Exception {
@@ -46,6 +47,72 @@ public class NotFoundTest extends BaseCoreFunctionalTestCase {
 
 	@Override
 	protected Class[] getAnnotatedClasses() {
-		return new Class[] { Coin.class, Currency.class };
+		return new Class[] {Coin.class, Currency.class};
 	}
+
+	@Entity(name = "Coin")
+	public static class Coin {
+
+		private Integer id;
+
+		private String name;
+
+		private Currency currency;
+
+		@Id
+		@GeneratedValue
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@ManyToOne
+		@JoinColumn(name = "currency", referencedColumnName = "name")
+		@NotFound(action = NotFoundAction.IGNORE)
+		public Currency getCurrency() {
+			return currency;
+		}
+
+		public void setCurrency(Currency currency) {
+			this.currency = currency;
+		}
+	}
+
+	@Entity(name = "Currency")
+	public static class Currency implements Serializable {
+
+		private Integer id;
+
+		private String name;
+
+		@Id
+		@GeneratedValue
+		public Integer getId() {
+			return id;
+		}
+
+		public void setId(Integer id) {
+			this.id = id;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+	}
+
 }
